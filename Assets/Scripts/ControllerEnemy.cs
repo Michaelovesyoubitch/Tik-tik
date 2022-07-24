@@ -2,6 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent (typeof(Animation))]
+[RequireComponent(typeof(ControllerEnemy))]
 public class ControllerEnemy : MonoBehaviour
 {
 
@@ -12,14 +13,16 @@ public class ControllerEnemy : MonoBehaviour
     private Rigidbody rb;
     [SerializeField]
     private GameObject[] partsOfBody;
-    private Animation anim;
+    private Animation _animation;
     public RectTransform healthBar;
+    private ControllerEnemy controllerEnemy;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animation>();
+        _animation = GetComponent<Animation>();
         maxHealth = health;
+        controllerEnemy = GetComponent<ControllerEnemy>();
     }
 
     //Не даст опуститься здоровью ниже нуля.
@@ -37,7 +40,7 @@ public class ControllerEnemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         //При выключенном контроллере наносить урон не получится. Нужно, чтобы враги не умирали, если игрок не стоит на нужной платформе.
-        if (GetComponent<ControllerEnemy>().enabled == false)
+        if (controllerEnemy.enabled == false)
             return;
         if (health != 0)
             health -= damage;
@@ -50,10 +53,10 @@ public class ControllerEnemy : MonoBehaviour
     private void RagdollOn()
     {
         rb.constraints = RigidbodyConstraints.None;
-        anim.Stop();
+        _animation.Stop();
         for (int i = 0; i < partsOfBody.Length; i++)
         {
-            if (partsOfBody[i].TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
+            if (partsOfBody[i].TryGetComponent(out Rigidbody rigidbody))
                 rigidbody.isKinematic = false;
         }
     }

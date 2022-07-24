@@ -34,27 +34,30 @@ public class Attack : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.touchCount > 0 && !isCalled && transform.parent.GetChild(1).gameObject.activeInHierarchy == true)
+        if (Input.touchCount > 0 && !isCalled)
         {
-            Touch touch = Input.GetTouch(0);
-
-            if (Camera.main != null)
+            if (transform.parent.GetChild(1).gameObject.activeInHierarchy == true)
             {
-                Ray ray = Camera.main.ScreenPointToRay(touch.position);
+                Touch touch = Input.GetTouch(0);
 
-                if (Physics.Raycast(Camera.main.transform.position, ray.direction, out hit, Mathf.Infinity, notCanvasLayer))
-
+                if (Camera.main != null)
                 {
-                    Debug.DrawRay(empty.transform.position, ray.direction);
+                    Ray ray = Camera.main.ScreenPointToRay(touch.position);
 
-                    isCalled = true;
-                    var createdObject = Call();
-                    createdObject.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * ray.direction);
-                    StartCoroutine(Switch());
+                    if (Physics.Raycast(Camera.main.transform.position, ray.direction, out hit, Mathf.Infinity, notCanvasLayer))
+
+                    {
+                        Debug.DrawRay(empty.transform.position, ray.direction);
+
+                        isCalled = true;
+                        var createdObject = Call();
+                        createdObject.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * ray.direction);
+                        StartCoroutine(Switch());
+                    }
+
                 }
 
             }
-
         }
     }
 
