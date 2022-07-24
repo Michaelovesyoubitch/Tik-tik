@@ -5,7 +5,7 @@ public class PoolsObject : MonoBehaviour
     //ÎŞÚÅÊÒÛ ÏÓËÀ. ÈÕ ÓĞÎÍ È ÓÑËÎÂÈß ÏÎÏÀÄÀÍÈß Â ÏÓË.
 
     public int damage = 1;
-    private bool coroutinaIsStarted;
+    private bool _coroutinaIsStarted;
 
 
     //Âîçâğàùåíèå â ïóë.
@@ -19,7 +19,7 @@ public class PoolsObject : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (gameObject.activeInHierarchy == true && !coroutinaIsStarted)
+        if (gameObject.activeInHierarchy == true && !_coroutinaIsStarted)
         {
             StartCoroutine(ReturnTime());
         }

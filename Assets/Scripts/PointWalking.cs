@@ -20,26 +20,23 @@ public class PointWalking : MonoBehaviour
     public bool start, finish, almostFinish, needCanvas;
     private bool isFirst = true;
     [NonSerialized] public bool pastPoint, isActive;
-    private Animator anim;
-    private GameObject canvas;
+    private Animator _anim;
+    private GameObject _canvas;
     private Transform _camera;
-    private NavMeshAgent playerNavMesh;
-    private Camera cameraComponent, playerCamera;
-    private PointWalking nextPointWalking;
+    private NavMeshAgent _playerNavMesh;
+    private Camera _cameraComponent, _playerCamera;
+    private PointWalking _nextPointWalking;
     
 
     private void Start()
     {
-        anim = player.GetComponent<Animator>();
-        canvas = transform.GetChild(1).gameObject;
-        playerNavMesh = player.GetComponent<NavMeshAgent>();
-        playerCamera = player.GetComponentInChildren<Camera>();
-        cameraComponent = GetComponentInChildren<Camera>();
+        _anim = player.GetComponent<Animator>();
+        _canvas = transform.GetChild(1).gameObject;
+        _playerNavMesh = player.GetComponent<NavMeshAgent>();
+        _playerCamera = player.GetComponentInChildren<Camera>();
+        _cameraComponent = GetComponentInChildren<Camera>();
         _camera = transform.GetChild(0);
-        nextPointWalking = nextPoint.GetComponent<PointWalking>();
-
-
-
+        _nextPointWalking = nextPoint.GetComponent<PointWalking>();
     }
 
     private void Update()
@@ -50,7 +47,7 @@ public class PointWalking : MonoBehaviour
         if (!finish && !start)
         {
             if (nextPoint.GetComponent<PointWalking>().isActive)
-            playerNavMesh.SetDestination(nextPoint.transform.position);
+            _playerNavMesh.SetDestination(nextPoint.transform.position);
         }
 
         //Если точка стартовая, движение по ней происходит не автоматически, а после тапа.
@@ -64,7 +61,7 @@ public class PointWalking : MonoBehaviour
                 isActive = false;
                 isFirst = false;
                 start = false;
-                playerNavMesh.SetDestination(nextPoint.transform.position);
+                _playerNavMesh.SetDestination(nextPoint.transform.position);
             }
         }
     }
@@ -77,21 +74,21 @@ public class PointWalking : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            anim.SetBool("isMoving", false);
+            _anim.SetBool("isMoving", false);
             isActive = false;
             pastPoint = true;
             if (needCanvas)
             {
                 _camera.tag = "MainCamera";
-                cameraComponent.enabled = true;
-                canvas.SetActive(true);
-                canvas.transform.GetChild(0).gameObject.SetActive(true);
-                playerCamera.enabled = false;
+                _cameraComponent.enabled = true;
+                _canvas.SetActive(true);
+                _canvas.transform.GetChild(0).gameObject.SetActive(true);
+                _playerCamera.enabled = false;
             }
 
             if (almostFinish)
             {
-                nextPointWalking.isActive = true;
+                _nextPointWalking.isActive = true;
             }
 
             if (finish)
@@ -105,14 +102,14 @@ public class PointWalking : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            anim.SetBool("isMoving", true);
+            _anim.SetBool("isMoving", true);
             if (needCanvas)
             {
-                playerCamera.enabled = true;
+                _playerCamera.enabled = true;
                 _camera.tag = "Untagged";
-                cameraComponent.enabled = false;
-                canvas.SetActive(false);
-                canvas.transform.GetChild(0).gameObject.SetActive(false);
+                _cameraComponent.enabled = false;
+                _canvas.SetActive(false);
+                _canvas.transform.GetChild(0).gameObject.SetActive(false);
 
             }
         }

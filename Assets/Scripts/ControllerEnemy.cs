@@ -8,21 +8,22 @@ public class ControllerEnemy : MonoBehaviour
 
     //ПОЛУЧЕНИЕ УРОНА ВРАГАМИ. ИЗМЕНЕНИЯ БАРА ХП.
 
-    public float health;
-    private float maxHealth;
-    private Rigidbody rb;
-    [SerializeField]
-    private GameObject[] partsOfBody;
-    private Animation _animation;
     public RectTransform healthBar;
-    private ControllerEnemy controllerEnemy;
+    public float health;
+    
+    [SerializeField]
+    private GameObject[] _partsOfBody;
+    private Animation _animation;
+    private float _maxHealth;
+    private Rigidbody _rb;
+    private ControllerEnemy _controllerEnemy;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
         _animation = GetComponent<Animation>();
-        maxHealth = health;
-        controllerEnemy = GetComponent<ControllerEnemy>();
+        _maxHealth = health;
+        _controllerEnemy = GetComponent<ControllerEnemy>();
     }
 
     //Не даст опуститься здоровью ниже нуля.
@@ -40,23 +41,23 @@ public class ControllerEnemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         //При выключенном контроллере наносить урон не получится. Нужно, чтобы враги не умирали, если игрок не стоит на нужной платформе.
-        if (controllerEnemy.enabled == false)
+        if (_controllerEnemy.enabled == false)
             return;
         if (health != 0)
             health -= damage;
 
         //Меняем размер бара в зависимости от уровня здоровья.
-        healthBar.localScale = new Vector3(health / maxHealth, healthBar.anchorMax.y, 1);
+        healthBar.localScale = new Vector3(health / _maxHealth, healthBar.anchorMax.y, 1);
     }
 
     //Функция включает рэгдол и выключает всё, что заставляет "куколку" дёргаться.
     private void RagdollOn()
     {
-        rb.constraints = RigidbodyConstraints.None;
+        _rb.constraints = RigidbodyConstraints.None;
         _animation.Stop();
-        for (int i = 0; i < partsOfBody.Length; i++)
+        for (int i = 0; i < _partsOfBody.Length; i++)
         {
-            if (partsOfBody[i].TryGetComponent(out Rigidbody rigidbody))
+            if (_partsOfBody[i].TryGetComponent(out Rigidbody rigidbody))
                 rigidbody.isKinematic = false;
         }
     }

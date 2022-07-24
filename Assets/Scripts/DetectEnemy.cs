@@ -11,13 +11,13 @@ public class DetectEnemy : MonoBehaviour
 
     public GameObject[] enemy;
     public float countOfHealth;
-    private PointWalking pointWalking;
+    private PointWalking _pointWalking;
 
 
     private void Start()
     {
         TakeDamage();
-        pointWalking = GetComponent<PointWalking>();
+        _pointWalking = GetComponent<PointWalking>();
     }
 
     //Подсчёт здоровья "точки".
@@ -43,17 +43,17 @@ public class DetectEnemy : MonoBehaviour
         //Подсчёт проводится постоянно.
         TakeDamage();
         //Если точка - финиш, автоматически подбегаем к ней, когда стоим на предфинише.
-        if (pointWalking.finish)
+        if (_pointWalking.finish)
             return;
         //Если нет, нужно довести здоровье следующей точки до нуля. Она станет активна, когда здоровье будет равно нулю.
         if (countOfHealth <= 0)
         {
-            if (!pointWalking.finish && !pointWalking.pastPoint)
+            if (!_pointWalking.finish && !_pointWalking.pastPoint)
             {
-                pointWalking.isActive = true;
+                _pointWalking.isActive = true;
             }
         }
         else
-            pointWalking.isActive = false;
+            _pointWalking.isActive = false;
     }
 }

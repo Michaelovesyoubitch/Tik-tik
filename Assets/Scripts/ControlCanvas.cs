@@ -4,7 +4,7 @@ public class ControlCanvas : MonoBehaviour
 {
     //œ≈–≈“¿— »¬¿Õ»≈ œ–»÷≈À¿.
 
-    RaycastHit hit;
+    private RaycastHit hit;
     private LayerMask mask = 1 << 5;
     [SerializeField] private GameObject gun;
 

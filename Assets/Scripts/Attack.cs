@@ -8,25 +8,25 @@ public class Attack : MonoBehaviour
     public GameObject container, empty;
     public static RaycastHit hit;
     public static Ray ray;
-    private bool isCalled;
     public int speed = 1;
-    LayerMask canvasLayer = 1 << 5, notCanvasLayer;
+    private bool _isCalled;
+    private Pool _pool;
+    private LayerMask _canvasLayer = 1 << 5, _notCanvasLayer;
 
     //Формируем два слоя. При этом обозначаем, что слой "UI" игнорируется.
 
     private void Start()
     {
-        notCanvasLayer = ~canvasLayer;
-        canvasLayer = Physics.IgnoreRaycastLayer;
-
+        _notCanvasLayer = ~_canvasLayer;
+        _canvasLayer = Physics.IgnoreRaycastLayer;
+        _pool = container.GetComponent<Pool>();
     }
 
     //Просто призыв пули из пула.
 
     private PoolsObject Call()
     {
-
-        PoolsObject whizbang = container.GetComponent<Pool>().GetFreeElement(empty.transform.position, empty.transform.rotation);
+        PoolsObject whizbang = _pool.GetFreeElement(empty.transform.position, empty.transform.rotation);
         return whizbang;
     }
 
@@ -34,7 +34,7 @@ public class Attack : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.touchCount > 0 && !isCalled)
+        if (Input.touchCount > 0 && !_isCalled)
         {
             if (transform.parent.GetChild(1).gameObject.activeInHierarchy == true)
             {
@@ -44,12 +44,12 @@ public class Attack : MonoBehaviour
                 {
                     Ray ray = Camera.main.ScreenPointToRay(touch.position);
 
-                    if (Physics.Raycast(Camera.main.transform.position, ray.direction, out hit, Mathf.Infinity, notCanvasLayer))
+                    if (Physics.Raycast(Camera.main.transform.position, ray.direction, out hit, Mathf.Infinity, _notCanvasLayer))
 
                     {
                         Debug.DrawRay(empty.transform.position, ray.direction);
 
-                        isCalled = true;
+                        _isCalled = true;
                         var createdObject = Call();
                         createdObject.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * ray.direction);
                         StartCoroutine(Switch());
@@ -66,7 +66,7 @@ public class Attack : MonoBehaviour
     IEnumerator Switch()
     {
         yield return new WaitForSeconds(0.5f);
-        isCalled = false;
+        _isCalled = false;
     }
 
 }
