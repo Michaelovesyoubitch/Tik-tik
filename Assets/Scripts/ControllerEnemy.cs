@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent (typeof(Animation))]
 public class ControllerEnemy : MonoBehaviour
 {
 

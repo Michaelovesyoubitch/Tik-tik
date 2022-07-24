@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PointWalking))]
 public class DetectEnemy : MonoBehaviour
 {
     //УСЛОВИЯ АКТИВАЦИИ ТОЧКИ, НА КОТОРОЙ ЕСТЬ ВРАГИ.
@@ -10,11 +11,13 @@ public class DetectEnemy : MonoBehaviour
 
     public GameObject[] enemy;
     public float countOfHealth;
+    private PointWalking pointWalking;
 
 
     private void Start()
     {
         TakeDamage();
+        pointWalking = GetComponent<PointWalking>();
     }
 
     //Подсчёт здоровья "точки".
@@ -40,14 +43,17 @@ public class DetectEnemy : MonoBehaviour
         //Подсчёт проводится постоянно.
         TakeDamage();
         //Если точка - финиш, автоматически подбегаем к ней, когда стоим на предфинише.
-        if (GetComponent<PointWalking>().finish)
+        if (pointWalking.finish)
             return;
         //Если нет, нужно довести здоровье следующей точки до нуля. Она станет активна, когда здоровье будет равно нулю.
-        if (countOfHealth <= 0 && !GetComponent<PointWalking>().finish && !GetComponent<PointWalking>().pastPoint)
+        if (countOfHealth <= 0)
         {
-            GetComponent<PointWalking>().isActive = true;
+            if (!pointWalking.finish && !pointWalking.pastPoint)
+            {
+                pointWalking.isActive = true;
+            }
         }
         else
-            GetComponent<PointWalking>().isActive = false;
+            pointWalking.isActive = false;
     }
 }

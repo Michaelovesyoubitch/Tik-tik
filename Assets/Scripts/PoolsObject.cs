@@ -1,7 +1,5 @@
 using System.Collections;
 using UnityEngine;
-
-[RequireComponent(typeof(Rigidbody))]
 public class PoolsObject : MonoBehaviour
 {
     //нчзейрш оскю. ху спнм х сякнбхъ оноюдюмхъ б оск.

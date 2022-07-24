@@ -18,27 +18,39 @@ public class PointWalking : MonoBehaviour
     //Поставьте галочку на старт, если точка-перевал первая (неожиданно, но об этом несколько ниже) и галочку на финиш, если точка - последняя на пути (чтобы не закладывался новый путь).
     //На предпоследнюю тоже не забудьте.
     public bool start, finish, almostFinish, needCanvas;
-    private bool isFirst = true, nextActive;
+    private bool isFirst = true;
     [NonSerialized] public bool pastPoint, isActive;
     private Animator anim;
     private GameObject canvas;
+    private Transform _camera;
+    private NavMeshAgent playerNavMesh;
+    private Camera cameraComponent, playerCamera;
+    private PointWalking nextPointWalking;
+    
 
     private void Start()
     {
         anim = player.GetComponent<Animator>();
         canvas = transform.GetChild(1).gameObject;
+        playerNavMesh = player.GetComponent<NavMeshAgent>();
+        playerCamera = player.GetComponentInChildren<Camera>();
+        cameraComponent = GetComponentInChildren<Camera>();
+        _camera = transform.GetChild(0);
+        nextPointWalking = nextPoint.GetComponent<PointWalking>();
+
+
 
     }
 
     private void Update()
     {
-        nextActive = nextPoint.GetComponent<PointWalking>().isActive;
         //Игрок идёт дальше, если следующая точка "активна", не применяется к старту и финишу.
         //ЕСЛИ ТОЧКА КОНЕЧНАЯ, ВСЁ РАВНО ВСТАВЬТЕ В ЗНАЧЕНИЕ "NEXTPOINT" САМУ ФИНАЛЬНУЮ ТОЧКУ.
 
-        if (nextActive && !finish && !start)
+        if (!finish && !start)
         {
-            player.GetComponent<NavMeshAgent>().SetDestination(nextPoint.transform.position);
+            if (nextPoint.GetComponent<PointWalking>().isActive)
+            playerNavMesh.SetDestination(nextPoint.transform.position);
         }
 
         //Если точка стартовая, движение по ней происходит не автоматически, а после тапа.
@@ -52,7 +64,7 @@ public class PointWalking : MonoBehaviour
                 isActive = false;
                 isFirst = false;
                 start = false;
-                player.GetComponent<NavMeshAgent>().SetDestination(nextPoint.transform.position);
+                playerNavMesh.SetDestination(nextPoint.transform.position);
             }
         }
     }
@@ -70,16 +82,16 @@ public class PointWalking : MonoBehaviour
             pastPoint = true;
             if (needCanvas)
             {
-                transform.GetChild(0).tag = "MainCamera";
-                GetComponentInChildren<Camera>().enabled = true;
+                _camera.tag = "MainCamera";
+                cameraComponent.enabled = true;
                 canvas.SetActive(true);
                 canvas.transform.GetChild(0).gameObject.SetActive(true);
-                player.GetComponentInChildren<Camera>().enabled = false;
+                playerCamera.enabled = false;
             }
 
             if (almostFinish)
             {
-                nextPoint.transform.GetComponent<PointWalking>().isActive = true;
+                nextPointWalking.isActive = true;
             }
 
             if (finish)
@@ -96,9 +108,9 @@ public class PointWalking : MonoBehaviour
             anim.SetBool("isMoving", true);
             if (needCanvas)
             {
-                player.GetComponentInChildren<Camera>().enabled = true;
-                transform.GetChild(0).tag = "Untagged";
-                GetComponentInChildren<Camera>().enabled = false;
+                playerCamera.enabled = true;
+                _camera.tag = "Untagged";
+                cameraComponent.enabled = false;
                 canvas.SetActive(false);
                 canvas.transform.GetChild(0).gameObject.SetActive(false);
 

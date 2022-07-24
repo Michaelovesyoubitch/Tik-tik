@@ -11,6 +11,7 @@ public class Attack : MonoBehaviour
     private bool isCalled;
     public int speed = 1;
     LayerMask canvasLayer = 1 << 5, notCanvasLayer;
+    private Camera cameraMain;
 
     //Формируем два слоя. При этом обозначаем, что слой "UI" игнорируется.
 
