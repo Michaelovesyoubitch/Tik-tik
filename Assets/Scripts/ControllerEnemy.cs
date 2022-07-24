@@ -43,7 +43,7 @@ public class ControllerEnemy : MonoBehaviour
             health -= damage;
 
         //Меняем размер бара в зависимости от уровня здоровья.
-        healthBar.localScale = new Vector3(health / maxHealth, 1, 1);
+        healthBar.localScale = new Vector3(health / maxHealth, healthBar.anchorMax.y, 1);
     }
 
     //Функция включает рэгдол и выключает всё, что заставляет "куколку" дёргаться.

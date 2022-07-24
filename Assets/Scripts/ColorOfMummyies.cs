@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SkinnedMeshRenderer))]
+
 public class ColorOfMummyies : MonoBehaviour
 {
     //ÏÅĞÅÊĞÀØÈÂÀÅÌ ÌÓÌÈŞ
