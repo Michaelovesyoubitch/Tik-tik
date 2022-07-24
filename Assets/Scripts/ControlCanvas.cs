@@ -6,9 +6,15 @@ public class ControlCanvas : MonoBehaviour
 
     private RaycastHit hit;
     private LayerMask mask = 1 << 5;
+    private Transform targetPlace;
     [SerializeField] private GameObject gun;
 
     //Вы заметите, что он схож с медотом из Attack. Да. Это нужно для игнорирования слоя.
+
+    private void Start()
+    {
+        targetPlace = transform.GetChild(0);
+    }
 
     private void Update()
     {
@@ -21,7 +27,7 @@ public class ControlCanvas : MonoBehaviour
                 if (Physics.Raycast(Camera.main.transform.position, ray.direction, out hit, Mathf.Infinity, mask))
 
                 {
-                    transform.GetChild(0).transform.position = hit.point;
+                    targetPlace.transform.position = hit.point;
                 }
             }
 

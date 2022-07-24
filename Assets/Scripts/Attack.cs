@@ -4,11 +4,10 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     // Œœ»—¿Õ»≈ ƒ¬»∆≈Õ»ﬂ œ”À‹. –≈… ¿—“.
-
+    [SerializeField] private int _speed = 1;
     public GameObject container, empty;
-    public static RaycastHit hit;
-    public static Ray ray;
-    public int speed = 1;
+    public static RaycastHit Hit;
+    public static Ray Ray;
     private bool _isCalled;
     private Pool _pool;
     private LayerMask _canvasLayer = 1 << 5, _notCanvasLayer;
@@ -51,7 +50,7 @@ public class Attack : MonoBehaviour
 
                         _isCalled = true;
                         var createdObject = Call();
-                        createdObject.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * ray.direction);
+                        createdObject.GetComponent<Rigidbody>().AddForce(_speed * Time.fixedDeltaTime * ray.direction);
                         StartCoroutine(Switch());
                     }
 

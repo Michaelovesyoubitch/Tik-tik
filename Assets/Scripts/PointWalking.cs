@@ -46,7 +46,7 @@ public class PointWalking : MonoBehaviour
 
         if (!finish && !start)
         {
-            if (nextPoint.GetComponent<PointWalking>().isActive)
+            if (_nextPointWalking.isActive)
             _playerNavMesh.SetDestination(nextPoint.transform.position);
         }
 

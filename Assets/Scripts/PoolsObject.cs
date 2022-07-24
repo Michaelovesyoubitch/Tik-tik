@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 public class PoolsObject : MonoBehaviour
 {
-    //нчзейрш оскю. ху спнм х сякнбхъ оноюдюмхъ б оск.
+    //назейрш оскю. ху спнм х сякнбхъ оноюдюмхъ б оск.
 
     public int damage = 1;
     private bool _coroutinaIsStarted;

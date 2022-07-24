@@ -4,15 +4,16 @@ using UnityEngine;
 public class Pool : MonoBehaviour
 {
     //Î×ÅÂÈÄÍÎ, ÍÎ ÑÎÇÄÀ¨Ò ÏÓË. ÒÀÊÆÅ ÒÓÒ ÌÅÒÎÄÛ, ÏÎÇÂÎËßŞÙÈÅ ÏĞÈÇÛÂÀÒÜ ×ÒÎ-ÒÎ ÈÇ ÏÓËÀ.
-    private List<PoolsObject> bullets;
+    
     public PoolsObject bullet;
     public int bulletPool;
+    private List<PoolsObject> _bullets;
 
     //Èíèöèàëèçàöèÿ ïóëà ïğè ñòàğòå.
 
     void Awake()
     {
-        bullets = new List<PoolsObject>();
+        _bullets = new List<PoolsObject>();
 
         InstantiateBullet();
     }
@@ -33,7 +34,7 @@ public class Pool : MonoBehaviour
     private PoolsObject CreateBullet(bool isActiveByDefault = false)
     {
         var creation = Instantiate(bullet, gameObject.transform);
-        bullets.Add(creation);
+        _bullets.Add(creation);
         creation.gameObject.SetActive(isActiveByDefault);
         return creation;
     }
@@ -42,7 +43,7 @@ public class Pool : MonoBehaviour
 
     public bool TryGetBullet(out PoolsObject poolsObject)
     {
-        foreach (var bullet in bullets)
+        foreach (var bullet in _bullets)
         {
             if (!bullet.gameObject.activeInHierarchy)
             {
