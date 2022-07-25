@@ -43,7 +43,7 @@ public class Attack : MonoBehaviour
                 {
                     Ray ray = Camera.main.ScreenPointToRay(touch.position);
 
-                    if (Physics.Raycast(Camera.main.transform.position, ray.direction, out hit, Mathf.Infinity, _notCanvasLayer))
+                    if (Physics.Raycast(Camera.main.transform.position, ray.direction, out Hit, Mathf.Infinity, _notCanvasLayer))
 
                     {
                         Debug.DrawRay(empty.transform.position, ray.direction);
